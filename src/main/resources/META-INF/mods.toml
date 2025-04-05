@@ -1,0 +1,32 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+issueTrackerURL="https://github.com/eatAWESOME/PixelmonDetailedLegendaryNotifications/issues"
+[[mods]]
+modId="pixelmondetailedlegendarynotifications"
+version="1.0.0"
+displayName="PixelmonDetailedLegendaryNotifications"
+logoFile="logo.png"
+# credits=""
+authors="Alden Tilley"
+description='''
+Extra details announced on legendary spawns
+'''
+[[dependencies.pixelmondetailedlegendarynotifications]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.pixelmondetailedlegendarynotifications]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.pixelmondetailedlegendarynotifications]]
+    modId="pixelmon"
+    mandatory=true
+    versionRange="[9.1,)"
+    ordering="NONE"
+    side="BOTH"
