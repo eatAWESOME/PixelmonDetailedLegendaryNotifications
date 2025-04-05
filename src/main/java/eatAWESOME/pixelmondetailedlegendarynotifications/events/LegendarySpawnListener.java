@@ -12,7 +12,6 @@ public class LegendarySpawnListener {
 
 	@SubscribeEvent
 	public void onSpawn(LegendarySpawnEvent.DoSpawn event) {
-		System.out.println("DoSpawn fired!");
 		Species species = event.getLegendary();
 		Mutable position = event.action.spawnLocation.location.pos;
         ServerPlayerEntity closestPlayer = null;
