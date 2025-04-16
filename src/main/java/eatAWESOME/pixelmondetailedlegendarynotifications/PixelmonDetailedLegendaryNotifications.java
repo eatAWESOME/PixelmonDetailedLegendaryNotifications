@@ -1,6 +1,7 @@
 package eatAWESOME.pixelmondetailedlegendarynotifications;
 
-import eatAWESOME.pixelmondetailedlegendarynotifications.events.LegendarySpawnListener;
+import eatAWESOME.pixelmondetailedlegendarynotifications.events.SpawnListener;
+import eatAWESOME.pixelmondetailedlegendarynotifications.events.RaidListener;
 
 import com.pixelmonmod.pixelmon.Pixelmon;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -35,7 +36,8 @@ public class PixelmonDetailedLegendaryNotifications {
     }
 
     public static void onModLoad(FMLCommonSetupEvent event) {
-    	Pixelmon.EVENT_BUS.register(new LegendarySpawnListener());
+    	Pixelmon.EVENT_BUS.register(new SpawnListener());
+    	Pixelmon.EVENT_BUS.register(new RaidListener());
     }
     
     @SubscribeEvent

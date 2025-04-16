@@ -4,7 +4,7 @@ license="MIT"
 issueTrackerURL="https://github.com/eatAWESOME/PixelmonDetailedLegendaryNotifications/issues"
 [[mods]]
 modId="pixelmondetailedlegendarynotifications"
-version="1.0.0"
+version="1.0.1"
 displayName="PixelmonDetailedLegendaryNotifications"
 logoFile="logo.png"
 # credits=""
