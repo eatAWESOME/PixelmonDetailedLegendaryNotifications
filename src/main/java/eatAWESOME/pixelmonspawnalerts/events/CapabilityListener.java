@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = PixelmonSpawnAlerts.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CapabilityListener {
 
-	public static final ResourceLocation spawnAlertLocation = new ResourceLocation(PixelmonSpawnAlerts.MOD_ID, "spawnAlert");
+	public static final ResourceLocation spawnAlertLocation = new ResourceLocation(PixelmonSpawnAlerts.MOD_ID, "spawnalert");
 
     @SubscribeEvent
     public static void attachCapability(AttachCapabilitiesEvent<Entity> event) {

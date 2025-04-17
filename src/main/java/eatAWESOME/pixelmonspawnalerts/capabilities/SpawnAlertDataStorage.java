@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class SpawnAlertDataStorage implements Capability.IStorage<ISpawnAlertData> {
 
-    private static final String spawnAlertNBT = "spawnAlert";
+    private static final String spawnAlertNBT = "spawnalert";
 
     @Nullable
     @Override
