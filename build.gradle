@@ -12,9 +12,9 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.1'
+version = '1.0.2'
 group = 'eatAWESOME' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'PixelmonDetailedLegendaryNotifications'
+archivesBaseName = 'PixelmonSpawnAlerts'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
@@ -143,12 +143,12 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "PixelmonDetailedLegendaryNotifications",
-            "Specification-Vendor": "PixelmonDetailedLegendaryNotifications",
-            "Specification-Version": "1.0.1", // We are version 1 of ourselves
+            "Specification-Title": "PixelmonSpawnAlerts",
+            "Specification-Vendor": "PixelmonSpawnAlerts",
+            "Specification-Version": "1.0.2",
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"PixelmonDetailedLegendaryNotifications",
+            "Implementation-Vendor" :"PixelmonSpawnAlerts",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }

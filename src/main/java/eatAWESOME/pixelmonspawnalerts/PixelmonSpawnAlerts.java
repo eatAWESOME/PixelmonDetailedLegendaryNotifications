@@ -1,7 +1,9 @@
-package eatAWESOME.pixelmondetailedlegendarynotifications;
+package eatAWESOME.pixelmonspawnalerts;
 
-import eatAWESOME.pixelmondetailedlegendarynotifications.events.SpawnListener;
-import eatAWESOME.pixelmondetailedlegendarynotifications.events.RaidListener;
+import eatAWESOME.pixelmonspawnalerts.capabilities.CapabilityHandler;
+import eatAWESOME.pixelmonspawnalerts.commands.SpawnAlert;
+import eatAWESOME.pixelmonspawnalerts.events.RaidListener;
+import eatAWESOME.pixelmonspawnalerts.events.SpawnListener;
 
 import com.pixelmonmod.pixelmon.Pixelmon;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -18,24 +20,25 @@ import net.minecraftforge.common.MinecraftForge;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(PixelmonDetailedLegendaryNotifications.MOD_ID)
-@Mod.EventBusSubscriber(modid = PixelmonDetailedLegendaryNotifications.MOD_ID)
-public class PixelmonDetailedLegendaryNotifications {
+@Mod(PixelmonSpawnAlerts.MOD_ID)
+@Mod.EventBusSubscriber(modid = PixelmonSpawnAlerts.MOD_ID)
+public class PixelmonSpawnAlerts {
 
-	public static final String MOD_ID = "pixelmondetailedlegendarynotifications";
+	public static final String MOD_ID = "pixelmonspawnalerts";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	
-	private static PixelmonDetailedLegendaryNotifications instance;
+	private static PixelmonSpawnAlerts instance;
 	
-    public PixelmonDetailedLegendaryNotifications() {
+    public PixelmonSpawnAlerts() {
         instance = this;
     	reloadConfig();
         MinecraftForge.EVENT_BUS.register(this);
     	IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(PixelmonDetailedLegendaryNotifications::onModLoad);
+        bus.addListener(PixelmonSpawnAlerts::onModLoad);
     }
 
     public static void onModLoad(FMLCommonSetupEvent event) {
+    	CapabilityHandler.register();
     	Pixelmon.EVENT_BUS.register(new SpawnListener());
     	Pixelmon.EVENT_BUS.register(new RaidListener());
     }
@@ -53,6 +56,7 @@ public class PixelmonDetailedLegendaryNotifications {
     
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
+    	SpawnAlert.register(event.getDispatcher());
     }
     
     @SubscribeEvent
@@ -63,7 +67,7 @@ public class PixelmonDetailedLegendaryNotifications {
     public static void onServerStopped(FMLServerStoppedEvent event) {
     }
     
-    public static PixelmonDetailedLegendaryNotifications getInstance() {
+    public static PixelmonSpawnAlerts getInstance() {
         return instance;
     }
 
