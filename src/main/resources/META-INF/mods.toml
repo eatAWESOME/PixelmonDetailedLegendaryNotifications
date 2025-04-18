@@ -4,7 +4,7 @@ license="MIT"
 issueTrackerURL="https://github.com/eatAWESOME/PixelmonSpawnAlerts/issues"
 [[mods]]
 modId="pixelmonspawnalerts"
-version="1.0.2"
+version="1.0.3"
 displayName="PixelmonSpawnAlerts"
 logoFile="logo.png"
 # credits=""

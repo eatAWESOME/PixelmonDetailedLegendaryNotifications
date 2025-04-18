@@ -27,29 +27,31 @@ public class SpawnListener {
 		Entity entity = event.action.getOrCreateEntity();
 		if (entity instanceof PixelmonEntity) {
 			PixelmonEntity pixelmonEntity = (PixelmonEntity) entity;
-			Pokemon pokemon = pixelmonEntity.getPokemon();
 			Mutable position = event.action.spawnLocation.location.pos;
-			processSpawn(pokemon, position);
+			processSpawn(pixelmonEntity, position);
 		}
 	}
 	
 	@SubscribeEvent
 	public void onSpawnerSpawn(PixelmonSpawnerEvent.Post event) {
-		Pokemon pokemon = event.getEntity().getPokemon();
+		PixelmonEntity pixelmonEntity = event.getEntity();
 		Mutable position = event.getSpawnPosition().mutable();
-		processSpawn(pokemon, position);
+		processSpawn(pixelmonEntity, position);
 	}
 	
-	public void processSpawn(Pokemon pokemon, Mutable position) {
-		String speciesName = pokemon.getSpecies().getStrippedName();
-		if (SpawnAlertTracker.getAllSpawnAlerts().values().stream().anyMatch(targetName -> targetName.equals(speciesName))) {
-			ServerPlayerEntity closestPlayer = getClosestPlayer(position);
-			if (SpawnAlertTracker.getSpawnAlert(closestPlayer.getUUID()).equals(speciesName)) {
-				sendAlerts(pokemon, position, closestPlayer);
+	public void processSpawn(PixelmonEntity pixelmonEntity, Mutable position) {
+		if (!pixelmonEntity.isBossPokemon()) {
+			Pokemon pokemon = pixelmonEntity.getPokemon();
+			String speciesName = pokemon.getSpecies().getStrippedName();
+			if (SpawnAlertTracker.getAllSpawnAlerts().values().stream().anyMatch(targetName -> targetName.equals(speciesName))) {
+				ServerPlayerEntity closestPlayer = getClosestPlayer(position);
+				if (SpawnAlertTracker.getSpawnAlert(closestPlayer.getUUID()).equals(speciesName)) {
+					sendAlerts(pokemon, position, closestPlayer);
+				}
 			}
-		}
-        if (pokemon.isShiny() || pokemon.isLegendary() || pokemon.isMythical() || pokemon.isUltraBeast()) {
-				sendMessages(pokemon, position, getClosestPlayer(position));
+			if (pokemon.isShiny() || pokemon.isLegendary() || pokemon.isMythical() || pokemon.isUltraBeast()) {
+					sendMessages(pokemon, position, getClosestPlayer(position));
+			}
 		}
 	}
 	

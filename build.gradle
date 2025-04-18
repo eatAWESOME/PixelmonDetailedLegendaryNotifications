@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.0.2'
+version = '1.0.3'
 group = 'eatAWESOME' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'PixelmonSpawnAlerts'
 
@@ -145,7 +145,7 @@ jar {
         attributes([
             "Specification-Title": "PixelmonSpawnAlerts",
             "Specification-Vendor": "PixelmonSpawnAlerts",
-            "Specification-Version": "1.0.2",
+            "Specification-Version": "1.0.3",
             "Implementation-Title": project.name,
             "Implementation-Version": "${version}",
             "Implementation-Vendor" :"PixelmonSpawnAlerts",
