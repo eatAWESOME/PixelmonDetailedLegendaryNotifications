@@ -5,7 +5,7 @@ import com.pixelmonmod.pixelmon.api.events.spawning.SpawnEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
 import com.pixelmonmod.pixelmon.api.pokemon.Pokemon;
 import com.pixelmonmod.pixelmon.entities.pixelmon.PixelmonEntity;
-
+import eatAWESOME.pixelmonspawnalerts.PixelmonSpawnAlerts;
 import eatAWESOME.pixelmonspawnalerts.utils.SpawnAlertTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -77,7 +77,7 @@ public class SpawnListener {
 		closeMessage.append(new StringTextComponent(" spawned near you at ").withStyle(textFormatting))
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
-		otherMessage.append(new StringTextComponent(" spawned near " + closestPlayer.getDisplayName().getString() + "!").withStyle(textFormatting));
+		otherMessage.append(new StringTextComponent(" spawned near " + closestPlayer.getName().getString() + "!").withStyle(textFormatting));
 		
 		for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
 			if (closestPlayer == null) {
@@ -90,6 +90,7 @@ public class SpawnListener {
 	            player.sendMessage(otherMessage, player.getUUID());
 			}
         }
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + otherMessage.getString());
 	}
 	
 	public void sendAlerts(Pokemon pokemon, Mutable position, ServerPlayerEntity player) {
@@ -106,6 +107,7 @@ public class SpawnListener {
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + closeMessage.getString().replace("you", player.getName().getString()));
 		player.sendMessage(closeMessage, player.getUUID());
 		sendSound(player, pokemon);
 	}

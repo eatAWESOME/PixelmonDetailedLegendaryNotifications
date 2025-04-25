@@ -2,6 +2,7 @@ package eatAWESOME.pixelmonspawnalerts.events;
 
 import com.pixelmonmod.pixelmon.api.events.raids.RandomizeRaidEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
+import eatAWESOME.pixelmonspawnalerts.PixelmonSpawnAlerts;
 import eatAWESOME.pixelmonspawnalerts.utils.SpawnAlertTracker;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
@@ -52,7 +53,7 @@ public class RaidListener {
 		IFormattableTextComponent closeMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near you at ").withStyle(textFormatting)
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
-		IFormattableTextComponent otherMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near " + closestPlayer.getDisplayName().getString() + " at ").withStyle(textFormatting)
+		IFormattableTextComponent otherMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near " + closestPlayer.getName().getString() + " at ").withStyle(textFormatting)
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
@@ -67,6 +68,7 @@ public class RaidListener {
 	            player.sendMessage(otherMessage, player.getUUID());
 			}
     	}
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + otherMessage.getString());
 	}
     
     public void sendAlerts(Species species, Mutable position, ServerPlayerEntity player) {
@@ -83,6 +85,7 @@ public class RaidListener {
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + closeMessage.getString().replace("you", player.getName().getString()));
 		player.sendMessage(closeMessage, player.getUUID());
 		sendSound(player, species);
 	}
