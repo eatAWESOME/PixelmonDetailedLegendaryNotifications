@@ -2,7 +2,6 @@ package eatAWESOME.pixelmonspawnalerts.events;
 
 import com.pixelmonmod.pixelmon.api.events.raids.RandomizeRaidEvent;
 import com.pixelmonmod.pixelmon.api.pokemon.species.Species;
-
 import eatAWESOME.pixelmonspawnalerts.utils.SpawnAlertTracker;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlaySoundEffectPacket;
@@ -73,7 +72,16 @@ public class RaidListener {
     public void sendAlerts(Species species, Mutable position, ServerPlayerEntity player) {
 		TextFormatting textFormatting = getTextFormatting(species);
 		String prefix = getPrefix(species);
-		IFormattableTextComponent closeMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near you at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting);
+    	
+		String coordsMessage = position.getX() + ", " + position.getY() + ", " + position.getZ();
+		String coordsCommand = "/spawnalerttp " + position.getX() + " " + position.getY() + " " + position.getZ();
+		Style coordsCommandStyle = new StringTextComponent("").withStyle(textFormatting).withStyle(TextFormatting.UNDERLINE).getStyle()
+				.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, coordsCommand))
+				.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Teleport to " + coordsMessage + "!").withStyle(textFormatting)));
+		
+		IFormattableTextComponent closeMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near you at ").withStyle(textFormatting)
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
 		player.sendMessage(closeMessage, player.getUUID());
 		sendSound(player, species);
