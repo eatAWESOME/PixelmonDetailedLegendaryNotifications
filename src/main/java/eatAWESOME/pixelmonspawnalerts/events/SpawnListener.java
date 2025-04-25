@@ -94,8 +94,17 @@ public class SpawnListener {
 	
 	public void sendAlerts(Pokemon pokemon, Mutable position, ServerPlayerEntity player) {
 		TextFormatting textFormatting = getTextFormatting(pokemon);
+		
+		String coordsMessage = position.getX() + ", " + position.getY() + ", " + position.getZ();
+		String coordsCommand = "/spawnalerttp " + position.getX() + " " + position.getY() + " " + position.getZ();
+		Style coordsCommandStyle = new StringTextComponent("").withStyle(textFormatting).withStyle(TextFormatting.UNDERLINE).getStyle()
+				.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, coordsCommand))
+				.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Teleport to " + coordsMessage + "!").withStyle(textFormatting)));
+		
 		IFormattableTextComponent closeMessage = getPrefix(pokemon, textFormatting);
-		closeMessage.append(new StringTextComponent(" spawned near you at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting));
+		closeMessage.append(new StringTextComponent(" spawned near you at ").withStyle(textFormatting))
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
 		player.sendMessage(closeMessage, player.getUUID());
 		sendSound(player, pokemon);
