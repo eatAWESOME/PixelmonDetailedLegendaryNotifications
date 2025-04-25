@@ -49,7 +49,7 @@ public class SpawnAlert {
                 })
         		.executes(context -> {
             		ServerPlayerEntity player = context.getSource().getPlayerOrException();
-	                String targetName = StringArgumentType.getString(context, "target");
+	                String targetName = reformatSpecies(StringArgumentType.getString(context, "target"));
 	                
 	                if (!targetName.equals("disable") && !validateSpecies(targetName)) {
 	                	context.getSource().sendFailure(new StringTextComponent("Invalid target. Entry must be 'disable' or a pokémon species."));
@@ -68,12 +68,12 @@ public class SpawnAlert {
 			                	}
 			                } else {
 			                	if (oldTargetName.equals(targetName)) {
-			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts already enabled for " + targetName), false);
+			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts already enabled for " + targetName + "."), false);
 			                	} else if (oldTargetName.equals("disable")) {
-			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts enabled for " + targetName), false);
+			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts enabled for " + targetName + "."), false);
 			                	} else {
-			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts disabled for " + oldTargetName), false);
-			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts enabled for " + targetName), false);
+			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts disabled for " + oldTargetName + "."), false);
+			                		context.getSource().sendSuccess(new StringTextComponent("Spawn alerts enabled for " + targetName + "."), false);
 			                	}
 			                }
 		                });
@@ -87,10 +87,22 @@ public class SpawnAlert {
 	
 	public static boolean validateSpecies(String targetName) {
 		for (Species pokedexSpecies : Pokedex.actualPokedex) {
-            if (pokedexSpecies.getStrippedName().equals(targetName)) {
+            if (pokedexSpecies.getStrippedName().toLowerCase().equals(targetName.toLowerCase())) {
             	return true;
             }
 		}
         return false;
+	}
+	
+	public static String reformatSpecies(String targetName) {
+		if (targetName.toLowerCase().equals("disable")) {
+			return "disable";
+		}
+		for (Species pokedexSpecies : Pokedex.actualPokedex) {
+            if (pokedexSpecies.getStrippedName().toLowerCase().equals(targetName.toLowerCase())) {
+            	return pokedexSpecies.getStrippedName();
+            }
+		}
+        return targetName;
 	}
 }
