@@ -68,7 +68,7 @@ public class RaidListener {
 	            player.sendMessage(otherMessage, player.getUUID());
 			}
     	}
-		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + otherMessage.getString());
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts]: " + nullMessage.getString().replace("at", "near " + closestPlayer.getName().getString() + " at"));
 	}
     
     public void sendAlerts(Species species, Mutable position, ServerPlayerEntity player) {
@@ -85,7 +85,7 @@ public class RaidListener {
 				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
 				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
-		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts] " + closeMessage.getString().replace("you", player.getName().getString()));
+		PixelmonSpawnAlerts.LOGGER.info("[PixelmonSpawnAlerts]: " + closeMessage.getString().replace("you", player.getName().getString()));
 		player.sendMessage(closeMessage, player.getUUID());
 		sendSound(player, species);
 	}
