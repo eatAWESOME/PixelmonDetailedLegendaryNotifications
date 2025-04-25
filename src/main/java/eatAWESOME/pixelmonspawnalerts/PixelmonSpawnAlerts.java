@@ -2,6 +2,7 @@ package eatAWESOME.pixelmonspawnalerts;
 
 import eatAWESOME.pixelmonspawnalerts.capabilities.CapabilityHandler;
 import eatAWESOME.pixelmonspawnalerts.commands.SpawnAlert;
+import eatAWESOME.pixelmonspawnalerts.commands.SpawnAlertTP;
 import eatAWESOME.pixelmonspawnalerts.events.RaidListener;
 import eatAWESOME.pixelmonspawnalerts.events.SpawnListener;
 
@@ -57,6 +58,7 @@ public class PixelmonSpawnAlerts {
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
     	SpawnAlert.register(event.getDispatcher());
+    	SpawnAlertTP.register(event.getDispatcher());
     }
     
     @SubscribeEvent

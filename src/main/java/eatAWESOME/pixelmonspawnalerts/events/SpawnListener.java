@@ -14,7 +14,10 @@ import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -59,11 +62,21 @@ public class SpawnListener {
 		TextFormatting textFormatting = getTextFormatting(pokemon);
 		IFormattableTextComponent formattedPrefix = getPrefix(pokemon, textFormatting);
 		
+		String coordsMessage = position.getX() + ", " + position.getY() + ", " + position.getZ();
+		String coordsCommand = "/spawnalerttp " + position.getX() + " " + position.getY() + " " + position.getZ();
+		Style coordsCommandStyle = new StringTextComponent("").withStyle(textFormatting).withStyle(TextFormatting.UNDERLINE).getStyle()
+				.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, coordsCommand))
+				.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Teleport to " + coordsMessage + "!").withStyle(textFormatting)));
+		
 		IFormattableTextComponent nullMessage = formattedPrefix.copy();
 		IFormattableTextComponent closeMessage = formattedPrefix.copy();
 		IFormattableTextComponent otherMessage = formattedPrefix.copy();
-		nullMessage.append(new StringTextComponent(" spawned at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting));
-		closeMessage.append(new StringTextComponent(" spawned near you at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting));
+		nullMessage.append(new StringTextComponent(" spawned at ").withStyle(textFormatting))
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
+		closeMessage.append(new StringTextComponent(" spawned near you at ").withStyle(textFormatting))
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
 		otherMessage.append(new StringTextComponent(" spawned near " + closestPlayer.getDisplayName().getString() + "!").withStyle(textFormatting));
 		
 		for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
@@ -71,7 +84,7 @@ public class SpawnListener {
 				player.sendMessage(nullMessage, player.getUUID());
 				sendSound(player, pokemon);
 			} else if (player.equals(closestPlayer)) {
-	            player.sendMessage(closeMessage, player.getUUID());	
+				player.sendMessage(closeMessage, player.getUUID());
 	            sendSound(player, pokemon);
 			} else {
 	            player.sendMessage(otherMessage, player.getUUID());

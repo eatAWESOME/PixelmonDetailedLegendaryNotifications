@@ -12,7 +12,10 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos.Mutable;
 import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;;
 
@@ -37,9 +40,22 @@ public class RaidListener {
     public void sendMessages(Species species, Mutable position, ServerPlayerEntity closestPlayer) {
     	TextFormatting textFormatting = getTextFormatting(species);
 		String prefix = getPrefix(species);
-    	IFormattableTextComponent nullMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting);
-		IFormattableTextComponent closeMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near you at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting);
-		IFormattableTextComponent otherMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near " + closestPlayer.getDisplayName().getString() + " at " + position.getX() + ", " + position.getY() + ", " + position.getZ() + "!").withStyle(textFormatting);
+    	
+		String coordsMessage = position.getX() + ", " + position.getY() + ", " + position.getZ();
+		String coordsCommand = "/spawnalerttp " + position.getX() + " " + position.getY() + " " + position.getZ();
+		Style coordsCommandStyle = new StringTextComponent("").withStyle(textFormatting).withStyle(TextFormatting.UNDERLINE).getStyle()
+				.withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, coordsCommand))
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new StringTextComponent("Teleport to " + coordsMessage + "!").withStyle(textFormatting)));
+		
+		IFormattableTextComponent nullMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared at ").withStyle(textFormatting)
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
+		IFormattableTextComponent closeMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near you at ").withStyle(textFormatting)
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
+		IFormattableTextComponent otherMessage = new StringTextComponent(prefix + species.getTranslatedName().getString() + " raid appeared near " + closestPlayer.getDisplayName().getString() + " at ").withStyle(textFormatting)
+				.append(new StringTextComponent(coordsMessage).withStyle(coordsCommandStyle))
+				.append(new StringTextComponent("!").withStyle(textFormatting));
 		
 		for (ServerPlayerEntity player : ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers()) {
 			if (closestPlayer == null) {
